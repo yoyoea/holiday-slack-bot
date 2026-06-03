@@ -1,3 +1,5 @@
+raise Exception("HELLO FROM GITHUB ACTIONS")
+
 print("Script started", flush=True)
 
 import os
