@@ -51,13 +51,15 @@ def build_matches():
             holidays = get_holidays(country, year)
 
             for holiday in holidays:
-                holiday_date = date.fromisoformat(holiday["date"])
-                days_until = (holiday_date - today).days
+    holiday_date = date.fromisoformat(holiday["date"]["iso"])
+    days_until = (holiday_date - today).days
 
-                if days_until in TARGET_OFFSETS:
-                    matches.append(
-                        f"• {country} — {holiday['name']} ({TARGET_OFFSETS[days_until]}) on {holiday_date.isoformat()}"
-                    )
+    if days_until in TARGET_OFFSETS:
+        holiday_name = holiday["name"]
+        timing = TARGET_OFFSETS[days_until]
+        matches.append(
+            f"• {country} — {holiday_name} ({timing}) on {holiday_date.isoformat()}"
+        )
 
     return matches
 
