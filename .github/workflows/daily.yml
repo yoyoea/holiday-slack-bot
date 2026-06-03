@@ -8,7 +8,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: SUPER OBVIOUS TEST
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install packages
+        run: pip install requests
+
+      - name: Debug files and run bot
         run: |
-          echo "HELLO I AM THE NEW WORKFLOW"
-          exit 1
+          echo "=== FILE LIST ==="
+          ls -la
+          echo "=== FILE CONTENT ==="
+          sed -n '1,200p' holiday_bot.py
+          echo "=== PYTHON VERSION ==="
+          python --version
+          echo "=== RUNNING SCRIPT ==="
+          python holiday_bot.py
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
