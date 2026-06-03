@@ -4,7 +4,7 @@ from datetime import date, timedelta
 
 SLACK_WEBHOOK_URL = os.environ["SLACK_WEBHOOK_URL"]
 
-COUNTRIES = ["CA", "US", "NL", "CN", "SE"]
+COUNTRIES = ["CA", "US", "NL", "PL", "CN", "SE"]
 TARGET_OFFSETS = {
     1: "in 1 day",
     3: "in 3 days",
