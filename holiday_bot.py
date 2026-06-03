@@ -43,4 +43,13 @@ if matches:
     message += "\n".join(matches)
 
     message = "✅ Slack bot test successful"
-send_to_slack(message)
+
+def send_to_slack(message):
+    response = requests.post(
+        SLACK_WEBHOOK_URL,
+        json={"text": message},
+        timeout=20,
+    )
+    print("Slack status:", response.status_code)
+    print("Slack response:", response.text)
+    response.raise_for_status()
