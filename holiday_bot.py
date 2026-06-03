@@ -42,4 +42,4 @@ if matches:
     message = "🌏 Upcoming Bank Holiday Reminder\n\n"
     message += "\n".join(matches)
 
-    send_to_slack(message)
+    send_to_slack("✅ Slack bot test successful")
