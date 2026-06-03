@@ -2,26 +2,20 @@ import os
 import requests
 from datetime import date, timedelta
 
-print("Script started", flush=True)
-
 SLACK_WEBHOOK_URL = os.environ["SLACK_WEBHOOK_URL"]
-COUNTRIES = ["SG", "US", "JP", "GB"]
 
-def send_to_slack(message):
-    response = requests.post(
-        SLACK_WEBHOOK_URL,
-        json={"text": message},
-        timeout=20,
-    )
-    print("Slack status:", response.status_code, flush=True)
-    print("Slack response:", response.text, flush=True)
-    response.raise_for_status()
+COUNTRIES = ["SG", "US", "JP", "GB"]
 
 def get_holidays(country_code, year):
     url = f"https://date.nager.at/api/v3/PublicHolidays/{year}/{country_code}"
-    response = requests.get(url, timeout=20)
-    response.raise_for_status()
+    response = requests.get(url)
     return response.json()
+
+def send_to_slack(message):
+    requests.post(
+        SLACK_WEBHOOK_URL,
+        json={"text": message}
+    )
 
 today = date.today()
 three_days_later = today + timedelta(days=3)
@@ -35,12 +29,17 @@ for country in COUNTRIES:
         holiday_date = holiday["date"]
 
         if holiday_date == today.isoformat():
-            matches.append(f"• {country} — {holiday['name']} TODAY")
+            matches.append(
+                f"• {country} — {holiday['name']} TODAY"
+            )
 
         if holiday_date == three_days_later.isoformat():
-            matches.append(f"• {country} — {holiday['name']} in 3 days")
+            matches.append(
+                f"• {country} — {holiday['name']} in 3 days"
+            )
 
-print("Matches found:", matches, flush=True)
+if matches:
+    message = "🌏 Upcoming Bank Holiday Reminder\n\n"
+    message += "\n".join(matches)
 
-send_to_slack("✅ Slack bot test successful")
-print("Message sent", flush=True)
+    send_to_slack(message)
