@@ -1,6 +1,10 @@
+print("Script started")
+
 import os
 import requests
 from datetime import date, timedelta
+
+
 
 SLACK_WEBHOOK_URL = os.environ["SLACK_WEBHOOK_URL"]
 
@@ -50,6 +54,11 @@ def send_to_slack(message):
         json={"text": message},
         timeout=20,
     )
+    
     print("Slack status:", response.status_code)
     print("Slack response:", response.text)
     response.raise_for_status()
+
+print("About to send Slack message")
+send_to_slack("TEST MESSAGE")
+print("Message sent")
