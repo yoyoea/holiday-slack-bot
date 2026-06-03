@@ -1,10 +1,8 @@
-raise Exception("HELLO FROM GITHUB ACTIONS")
-
-print("Script started", flush=True)
-
 import os
 import requests
 from datetime import date, timedelta
+
+print("Script started", flush=True)
 
 SLACK_WEBHOOK_URL = os.environ["SLACK_WEBHOOK_URL"]
 COUNTRIES = ["SG", "US", "JP", "GB"]
