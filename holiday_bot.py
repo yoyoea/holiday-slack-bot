@@ -1,6 +1,6 @@
 import os
 import requests
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 
 SLACK_WEBHOOK_URL = os.environ["SLACK_WEBHOOK_URL"]
 CALENDARIFIC_API_KEY = os.environ["CALENDARIFIC_API_KEY"]
@@ -18,11 +18,10 @@ def get_holidays(country_code, year):
         "api_key": CALENDARIFIC_API_KEY,
         "country": country_code,
         "year": year,
+        "type": "national",
     }
 
     response = requests.get(url, params=params, timeout=20)
-    print(f"{country_code} {year} status: {response.status_code}", flush=True)
-    print(f"{country_code} {year} body: {response.text[:500]}", flush=True)
     response.raise_for_status()
 
     data = response.json()
@@ -34,8 +33,6 @@ def send_to_slack(message):
         json={"text": message},
         timeout=20,
     )
-    print("Slack status:", response.status_code, flush=True)
-    print("Slack response:", response.text, flush=True)
     response.raise_for_status()
 
 def build_matches():
