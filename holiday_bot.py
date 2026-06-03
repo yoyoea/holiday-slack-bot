@@ -12,10 +12,22 @@ TARGET_OFFSETS = {
 }
 
 def get_holidays(country_code, year):
-    url = f"https://date.nager.at/api/v3/PublicHolidays/{year}/{country_code}"
-    response = requests.get(url, timeout=20)
+    url = "https://calendarific.com/api/v2/holidays"
+    params = {
+        "api_key": CALENDARIFIC_API_KEY,
+        "country": country_code,
+        "year": year,
+    }
+
+    response = requests.get(url, params=params, timeout=20)
+
+    print(f"{country_code} {year} status:", response.status_code, flush=True)
+    print(f"{country_code} {country_code} body:", response.text[:500], flush=True)
+
     response.raise_for_status()
-    return response.json()
+
+    data = response.json()
+    return data["response"]["holidays"]
 
 def send_to_slack(message):
     response = requests.post(
