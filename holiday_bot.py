@@ -4,7 +4,7 @@ from datetime import date, timedelta
 
 SLACK_WEBHOOK_URL = os.environ["SLACK_WEBHOOK_URL"]
 
-COUNTRIES = ["CA", "US", "NL", "GB", "CN", "SE" ]
+COUNTRIES = ["CA", "US", "NL", "PL", "CN", "SE" ]
 
 def get_holidays(country_code, year):
     url = f"https://date.nager.at/api/v3/PublicHolidays/{year}/{country_code}"
