@@ -3,6 +3,7 @@ import requests
 from datetime import date, timedelta
 
 SLACK_WEBHOOK_URL = os.environ["SLACK_WEBHOOK_URL"]
+CALENDARIFIC_API_KEY = os.environ["CALENDARIFIC_API_KEY"]
 
 COUNTRIES = ["CA", "US", "NL", "IN", "CN", "SE"]
 TARGET_OFFSETS = {
