@@ -1,6 +1,6 @@
 import os
 import requests
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 
 SLACK_WEBHOOK_URL = os.environ["SLACK_WEBHOOK_URL"]
 CALENDARIFIC_API_KEY = os.environ["CALENDARIFIC_API_KEY"]
@@ -21,10 +21,8 @@ def get_holidays(country_code, year):
     }
 
     response = requests.get(url, params=params, timeout=20)
-
-    print(f"{country_code} {year} status:", response.status_code, flush=True)
-    print(f"{country_code} {country_code} body:", response.text[:500], flush=True)
-
+    print(f"{country_code} {year} status: {response.status_code}", flush=True)
+    print(f"{country_code} {year} body: {response.text[:500]}", flush=True)
     response.raise_for_status()
 
     data = response.json()
@@ -43,24 +41,22 @@ def send_to_slack(message):
 def build_matches():
     today = date.today()
     years_to_check = {today.year, today.year + 1}
-
     matches = []
 
     for country in COUNTRIES:
         for year in years_to_check:
             holidays = get_holidays(country, year)
 
-        for holiday in holidays:
-            holiday_date = date.fromisoformat(holiday["date"]["iso"])
-            days_until = (holiday_date - today).days
-        
-            if days_until in TARGET_OFFSETS:
-                holiday_name = holiday["name"]
-                timing = TARGET_OFFSETS[days_until]
-        
-                matches.append(
-                    f"• {country} — {holiday_name} ({timing}) on {holiday_date.isoformat()}"
-                )
+            for holiday in holidays:
+                holiday_date = datetime.fromisoformat(holiday["date"]["iso"]).date()
+                days_until = (holiday_date - today).days
+
+                if days_until in TARGET_OFFSETS:
+                    holiday_name = holiday["name"]
+                    timing = TARGET_OFFSETS[days_until]
+                    matches.append(
+                        f"• {country} — {holiday_name} ({timing}) on {holiday_date.isoformat()}"
+                    )
 
     return matches
 
