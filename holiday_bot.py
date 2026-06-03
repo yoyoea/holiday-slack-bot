@@ -18,7 +18,7 @@ def send_to_slack(message):
     )
 
 today = date.today()
-three_days_later = today + timedelta(days=7)
+seven_days_later = today + timedelta(days=7)
 
 matches = []
 
