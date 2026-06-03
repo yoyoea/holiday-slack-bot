@@ -21,15 +21,8 @@ jobs:
       - name: Install packages
         run: pip install requests
 
-      - name: Debug files and run bot
-        run: |
-          echo "=== FILE LIST ==="
-          ls -la
-          echo "=== FILE CONTENT ==="
-          sed -n '1,200p' holiday_bot.py
-          echo "=== PYTHON VERSION ==="
-          python --version
-          echo "=== RUNNING SCRIPT ==="
-          python holiday_bot.py
+      - name: Run bot
+        run: python holiday_bot.py
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          CALENDARIFIC_API_KEY: ${{ secrets.CALENDARIFIC_API_KEY }}
