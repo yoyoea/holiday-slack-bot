@@ -4,7 +4,7 @@ from datetime import date, timedelta
 
 SLACK_WEBHOOK_URL = os.environ["SLACK_WEBHOOK_URL"]
 
-COUNTRIES = ["SG", "US", "JP", "GB"]
+COUNTRIES = ["CA", "US", "NL", "GB"，"CN", "SE" ]
 
 def get_holidays(country_code, year):
     url = f"https://date.nager.at/api/v3/PublicHolidays/{year}/{country_code}"
@@ -18,7 +18,7 @@ def send_to_slack(message):
     )
 
 today = date.today()
-three_days_later = today + timedelta(days=3)
+three_days_later = today + timedelta(days=7)
 
 matches = []
 
@@ -33,9 +33,9 @@ for country in COUNTRIES:
                 f"• {country} — {holiday['name']} TODAY"
             )
 
-        if holiday_date == three_days_later.isoformat():
+        if holiday_date == seven_days_later.isoformat():
             matches.append(
-                f"• {country} — {holiday['name']} in 3 days"
+                f"• {country} — {holiday['name']} in 7 days"
             )
 
 if matches:
