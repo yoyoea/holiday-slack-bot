@@ -2,10 +2,14 @@ import os
 import requests
 from datetime import date, datetime
 
-SLACK_WEBHOOK_URL = os.environ["SLACK_WEBHOOK_URL"]
+SLACK_WEBHOOK_URLS = [
+    os.environ["SLACK_WEBHOOK_URL"],
+    os.environ["SLACK_WEBHOOK_URL_CreateTTA"],
+]
+
 CALENDARIFIC_API_KEY = os.environ["CALENDARIFIC_API_KEY"]
 
-COUNTRIES = ["CA", "US", "NL", "IN", "CN", "SE"]
+COUNTRIES = ["CA", "US", "NL", "IN", "MY", "CN", "SE"]
 TARGET_OFFSETS = {
     1: "in 1 day",
     3: "in 3 days",
@@ -28,12 +32,13 @@ def get_holidays(country_code, year):
     return data["response"]["holidays"]
 
 def send_to_slack(message):
-    response = requests.post(
-        SLACK_WEBHOOK_URL,
-        json={"text": message},
-        timeout=20,
-    )
-    response.raise_for_status()
+    for webhook in SLACK_WEBHOOK_URLS:
+        response = requests.post(
+            webhook,
+            json={"text": message},
+            timeout=20,
+        )
+        response.raise_for_status()
 
 def build_matches():
     today = date.today()
