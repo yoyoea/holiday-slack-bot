@@ -25,4 +25,5 @@ jobs:
         run: python holiday_bot.py
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL_CREATETTA: ${{ secrets.SLACK_WEBHOOK_URL_CREATETTA }}
           CALENDARIFIC_API_KEY: ${{ secrets.CALENDARIFIC_API_KEY }}
