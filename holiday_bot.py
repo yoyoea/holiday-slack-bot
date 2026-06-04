@@ -4,7 +4,7 @@ from datetime import date, datetime
 
 SLACK_WEBHOOK_URLS = [
     os.environ["SLACK_WEBHOOK_URL"],
-    os.environ["SLACK_WEBHOOK_URL_CreateTTA"],
+    os.environ["SLACK_WEBHOOK_URL_CREATETTA"],
 ]
 
 CALENDARIFIC_API_KEY = os.environ["CALENDARIFIC_API_KEY"]
